@@ -1,0 +1,9 @@
+ErrorCode:
+  type: string
+  enum:
+    - INVALID_REQUEST
+    - DUPLICATE_TRANSACTION
+    - VALIDATION_FAILED
+    - SYSTEM_ERROR
+    - UNAUTHORIZED
+    - SERVICE_UNAVAILABLE

@@ -1,0 +1,32 @@
+openapi: 3.0.3
+info:
+  title: FraudShield Transaction API
+  description: API for submitting transactions for fraud analysis
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:8080
+
+paths:
+  /api/v1/transactions:
+    post:
+      summary: Create a new transaction
+      description: Accepts a transaction and publishes it for asynchronous fraud processing
+      operationId: createTransaction
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: './schemas/fraudshield-schema.yaml#/TransactionRequest'
+      responses:
+        202:
+          description: Transaction accepted for processing
+          content:
+            application/json:
+              schema:
+                $ref: './schemas/fraudshield-schema.yaml#/TransactionResponse'
+        400:
+          description: Invalid request
+        409:
+          description: Duplicate transaction

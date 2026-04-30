@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: fraudshield-transaction-service
+
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html

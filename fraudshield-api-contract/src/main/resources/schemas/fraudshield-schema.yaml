@@ -1,0 +1,57 @@
+TransactionRequest:
+  type: object
+  required:
+    - transactionId
+    - userId
+    - amount
+    - currency
+    - timestamp
+  properties:
+    transactionId:
+      type: string
+    userId:
+      type: string
+    amount:
+      type: number
+      format: double
+      minimum: 0.01
+    currency:
+      $ref: '#/Currency'
+    location:
+      $ref: '#/Location'
+    timestamp:
+      type: integer
+      format: int64
+
+TransactionResponse:
+  type: object
+  properties:
+    transactionId:
+      type: string
+    status:
+      $ref: '#/TransactionStatus'
+    message:
+      type: string
+
+TransactionStatus:
+  type: string
+  enum:
+    - ACCEPTED
+    - REJECTED
+
+Location:
+  type: string
+  enum:
+    - IN
+    - US
+    - UK
+    - EU
+
+Currency:
+  type: string
+  enum:
+    - INR
+    - USD
+    - EUR
+    - GBP
+    - JPY
