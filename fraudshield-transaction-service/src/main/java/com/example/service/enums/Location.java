@@ -1,0 +1,9 @@
+package com.example.service.enums;
+
+
+public enum Location {
+    IN,
+    US,
+    EU,
+    OTHER
+}
