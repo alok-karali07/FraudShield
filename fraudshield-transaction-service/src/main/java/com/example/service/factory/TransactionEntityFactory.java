@@ -1,9 +1,9 @@
 package com.example.service.factory;
 
-import com.example.service.model.enums.Currency;
-import com.example.service.model.enums.Location;
 import com.example.service.event.TransactionEvent;
 import com.example.service.model.TransactionEntity;
+import com.example.service.model.enums.Currency;
+import com.example.service.model.enums.Location;
 import com.example.transaction.rest.model.RestTransactionRequest;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -28,7 +28,7 @@ public class TransactionEntityFactory {
 
         return TransactionEvent.builder()
                 .transactionId(transactionEntity.getId())
-                .userId(transactionEntity.getUser().getId())
+//                .userId(transactionEntity.getUser().getId())
                 .amount(transactionEntity.getAmount().doubleValue())
                 .currency(transactionEntity.getCurrency().name())
                 .location(transactionEntity.getLocation().name())

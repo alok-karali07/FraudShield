@@ -1,4 +1,4 @@
-package com.example.detection.event;
+package com.example.service.event;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

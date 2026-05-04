@@ -1,5 +1,6 @@
 package com.example.detection.event;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,10 +11,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TransactionEvent {
+
     private String transactionId;
-    private String userId;
-    private double amount;
+    private Long userId;
+    private Double amount;
     private String currency;
     private String location;
-    private long timestamp;
+    private Long timestamp;
 }

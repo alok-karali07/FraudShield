@@ -8,6 +8,8 @@ spring:
       application-id: fraudshield-fraud-detection
       default-key-serde: org.apache.kafka.common.serialization.Serdes$StringSerde
       default-value-serde: org.apache.kafka.common.serialization.Serdes$StringSerde
+      properties:
+        auto.offset.reset: earliest
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
