@@ -1,3 +1,22 @@
 spring:
   application:
     name: fraudshield-alert-service
+
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: fraudshield-alert-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: "com.example.alert.event"
+        spring.json.value.default.type: "com.example.alert.event.FraudAlertEvent"
+
+app:
+  kafka:
+    topic:
+      fraud-detected: fraudshield.fraud.detected
+
+server:
+  port: 8083

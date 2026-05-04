@@ -10,7 +10,8 @@ TransactionRequest:
     transactionId:
       type: string
     userId:
-      type: string
+      type: integer
+      format: int64
     amount:
       type: number
       format: double

@@ -1,3 +1,27 @@
 spring:
   application:
     name: fraudshield-fraud-detection-service
+
+  kafka:
+    bootstrap-servers: localhost:9092
+    streams:
+      application-id: fraudshield-fraud-detection
+      default-key-serde: org.apache.kafka.common.serialization.Serdes$StringSerde
+      default-value-serde: org.apache.kafka.common.serialization.Serdes$StringSerde
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      properties:
+        spring.json.add.type.headers: false
+
+app:
+  kafka:
+    topic:
+      transactions-created: fraudshield.transactions.created
+      fraud-detected: fraudshield.fraud.detected
+
+  fraud:
+    max-amount: 10000.0
+
+server:
+  port: 8082
