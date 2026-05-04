@@ -1,4 +1,4 @@
-package com.example.service.enums;
+package com.example.service.model.enums;
 
 public enum ErrorMessage {
 
