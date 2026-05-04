@@ -3,21 +3,22 @@ spring:
     name: fraudshield-transaction-service
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/fraudshield
-    username: user
-    password: root
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:fraudshield}
+    username: ${DB_USER:user}
+    password: ${DB_PASSWORD:root}
     driver-class-name: org.postgresql.Driver
 
   jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
-      ddl-auto: none
+      ddl-auto: ${DDL_AUTO:none}
     properties:
       hibernate:
         format_sql: true
-        show_sql: true
+        show_sql: false
 
   kafka:
-    bootstrap-servers: localhost:9092
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
