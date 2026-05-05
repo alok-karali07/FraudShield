@@ -1,106 +1,49 @@
 # FraudShield 🛡️
-A real-time fraud detection system built with Spring Boot and Apache Kafka Streams.
+Real-time fraud detection system built with Spring Boot and Apache Kafka Streams.
 
 ---
 
 ## Architecture
 
 ```
-POST /api/v1/transactions
-        ↓
-transaction-service  ──→  fraudshield.transactions.created  ──→  fraud-detection-service
-                                                                          ↓
-alert-service  ←──  fraudshield.fraud.detected  ←──────────────  (fraud rules applied)
+transaction-service ──→ fraudshield.transactions.created ──→ fraud-detection-service
+                                                                        ↓
+alert-service ←────────── fraudshield.fraud.detected ←─────── (fraud rules applied)
 ```
 
-### Microservices
-
-| Service | Port | Responsibility |
+| Service | Port | Role |
 |---|---|---|
-| `fraudshield-transaction-service` | 8081 | Accepts transactions, saves to DB, publishes to Kafka |
-| `fraudshield-fraud-detection-service` | 8082 | Kafka Streams — applies fraud rules, publishes alerts |
-| `fraudshield-alert-service` | 8083 | Consumes fraud alerts and triggers notifications |
+| `fraudshield-transaction-service` | 8081 | REST API — accepts and publishes transactions |
+| `fraudshield-fraud-detection-service` | 8082 | Kafka Streams — applies fraud rules |
+| `fraudshield-alert-service` | 8083 | Consumer — processes fraud alerts |
 
 ---
 
 ## Tech Stack
 
-- **Java 17** + **Spring Boot 3**
-- **Apache Kafka** + **Kafka Streams**
-- **PostgreSQL 16**
-- **Docker & Docker Compose**
-- **OpenAPI (Contract First)**
-- **Lombok**
+| | |
+|---|---|
+| Language | Java 21 |
+| Framework | Spring Boot 3 |
+| Messaging | Apache Kafka + Kafka Streams |
+| Database | PostgreSQL 16 |
+| API Design | OpenAPI 3 (Contract First) |
+| Infrastructure | Docker + Docker Compose |
 
 ---
 
 ## Getting Started
 
-### Prerequisites
-- Java 17+
-- Docker & Docker Compose
-- Maven
-
-### 1. Start Infrastructure
-```bash
-cd development
-docker-compose up -d
-```
-
-This starts:
-- Kafka + Zookeeper
-- Kafka UI → http://localhost:8080
-- PostgreSQL
-
-### 2. Create Kafka Topics
-```bash
-docker logs kafka-init
-```
-Topics created automatically on startup:
-- `fraudshield.transactions.created` — 3 partitions
-- `fraudshield.fraud.detected` — 3 partitions
-
-### 3. Run Microservices
-
-Start each service in order from IntelliJ or terminal:
+**Prerequisites:** Java 21, Docker, Maven
 
 ```bash
-# Terminal 1
-cd fraudshield-transaction-service && mvn spring-boot:run
+# 1. Start infrastructure
+cd development && docker compose --env-file ../.environment/.env up -d
 
-# Terminal 2
-cd fraudshield-fraud-detection-service && mvn spring-boot:run
-
-# Terminal 3
-cd fraudshield-alert-service && mvn spring-boot:run
-```
-
----
-
-## API Usage
-
-### Create Transaction
-```http
-POST http://localhost:8081/api/v1/transactions
-Content-Type: application/json
-
-{
-  "transactionId": "txn_1001",
-  "userId": 12345,
-  "amount": 49999.99,
-  "currency": "INR",
-  "location": "IN",
-  "timestamp": 1714550400000
-}
-```
-
-### Response
-```json
-{
-  "transactionId": "txn_1001",
-  "status": "ACCEPTED",
-  "message": "Transaction accepted for fraud processing"
-}
+# 2. Run services (in order)
+cd fraudshield-transaction-service      && mvn spring-boot:run
+cd fraudshield-fraud-detection-service  && mvn spring-boot:run
+cd fraudshield-alert-service            && mvn spring-boot:run
 ```
 
 ---
@@ -110,23 +53,7 @@ Content-Type: application/json
 | Rule | Condition |
 |---|---|
 | High Amount | `amount > 10,000` |
-| Suspicious Location | `location == "OTHER"` |
-
----
-
-## Project Structure
-
-```
-FraudShield/
-├── development/
-│   ├── docker-compose.yml
-│   └── init-scripts/
-│       └── create-topics.sh
-├── fraudshield-api-contract/         ← OpenAPI spec (contract first)
-├── fraudshield-transaction-service/  ← Producer
-├── fraudshield-fraud-detection-service/ ← Kafka Streams processor
-└── fraudshield-alert-service/        ← Consumer
-```
+| Suspicious Location | `location == OTHER` |
 
 ---
 
@@ -141,12 +68,18 @@ FraudShield/
 
 ## Environment Variables
 
-| Variable | Default | Description |
-|---|---|---|
-| `KAFKA_BOOTSTRAP_SERVERS` | `localhost:9092` | Kafka broker address |
-| `POSTGRES_DB` | `fraudshield` | Database name |
-| `POSTGRES_USER` | `user` | Database user |
-| `POSTGRES_PASSWORD` | `root` | Database password |
+Create `.environment/.env` at project root:
+
+```bash
+KAFKA_BOOTSTRAP_SERVERS=localhost:9092
+POSTGRES_DB=fraudshield
+POSTGRES_USER=user
+POSTGRES_PASSWORD=root
+FRAUD_MAX_AMOUNT=10000.0
+TRANSACTION_SERVICE_PORT=8081
+FRAUD_DETECTION_SERVICE_PORT=8082
+ALERT_SERVICE_PORT=8083
+```
 
 ---
 
