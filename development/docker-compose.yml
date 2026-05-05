@@ -52,10 +52,12 @@ services:
     container_name: fraudshield-postgres
     ports:
       - "5432:5432"
+    env_file:
+      - ../.environment/.env
     environment:
-      POSTGRES_DB: fraudshield
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: root
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     volumes:
       - postgres-data:/var/lib/postgresql/data
 
