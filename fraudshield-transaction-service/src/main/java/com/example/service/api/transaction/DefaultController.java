@@ -1,9 +1,9 @@
-package com.example.service.controller;
+package com.example.service.api.transaction;
 
 import com.example.service.factory.TransactionEntityFactory;
 import com.example.service.model.TransactionEntity;
-import com.example.service.service.TransactionService;
-import com.example.transaction.rest.api.DefaultApi;
+import com.example.service.api.transaction.service.TransactionService;
+import com.example.transaction.rest.api.TransactionApi;
 import com.example.transaction.rest.model.RestTransactionRequest;
 import com.example.transaction.rest.model.RestTransactionResponse;
 import com.example.transaction.rest.model.RestTransactionStatus;
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-public class DefaultController implements DefaultApi {
+public class DefaultController implements TransactionApi {
 
     private final TransactionService transactionService;
 

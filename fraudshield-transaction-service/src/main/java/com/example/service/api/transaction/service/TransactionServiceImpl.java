@@ -1,4 +1,4 @@
-package com.example.service.service;
+package com.example.service.api.transaction.service;
 
 import com.example.service.messaging.EventPublisher;
 import com.example.service.model.TransactionEntity;
@@ -12,13 +12,13 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class TransactionServiceImpl implements TransactionService {
 
-    private final TransactionRepository repository;
+    private final TransactionRepository transactionRepository;
     private final EventPublisher<TransactionEntity> publisher;
 
     @Override
     public TransactionEntity createTransaction(TransactionEntity transactionEntity) {
 
-        TransactionEntity saved = repository.save(transactionEntity);
+        TransactionEntity saved = transactionRepository.save(transactionEntity);
         log.info("Transaction saved: {}", saved.getId());
 
         publisher.publish(saved);

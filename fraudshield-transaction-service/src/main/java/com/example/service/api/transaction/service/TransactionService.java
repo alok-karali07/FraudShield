@@ -1,4 +1,4 @@
-package com.example.service.service;
+package com.example.service.api.transaction.service;
 
 import com.example.service.model.TransactionEntity;
 

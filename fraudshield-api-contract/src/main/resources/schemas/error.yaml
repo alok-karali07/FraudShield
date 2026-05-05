@@ -1,3 +1,16 @@
+ErrorResponse:
+  type: object
+  properties:
+    code:
+      $ref: '#/ErrorCode'
+    message:
+      type: string
+    timestamp:
+      type: integer
+      format: int64
+    stackTrace:
+      type: string
+
 ErrorCode:
   type: string
   enum:
