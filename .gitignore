@@ -35,3 +35,9 @@ build/
 ### Others ###
 *.log
 .env
+.environment/
+.mvn/wrapper/maven-wrapper.jar
+.DS_Store
+Thumbs.db
+/tmp/kafka-streams/
+docker-compose.override.yml

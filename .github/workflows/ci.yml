@@ -9,17 +9,30 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    env:
+      KAFKA_BOOTSTRAP_SERVERS: ${{ secrets.KAFKA_BOOTSTRAP_SERVERS }}
+      POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
+      POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+      POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+      DB_HOST: ${{ secrets.DB_HOST }}
+      DB_PORT: ${{ secrets.DB_PORT }}
+      DDL_AUTO: ${{ secrets.DDL_AUTO }}
+      FRAUD_MAX_AMOUNT: ${{ secrets.FRAUD_MAX_AMOUNT }}
+      TRANSACTION_SERVICE_PORT: ${{ secrets.TRANSACTION_SERVICE_PORT }}
+      FRAUD_DETECTION_SERVICE_PORT: ${{ secrets.FRAUD_DETECTION_SERVICE_PORT }}
+      ALERT_SERVICE_PORT: ${{ secrets.ALERT_SERVICE_PORT }}
+
     services:
       postgres:
         image: postgres:16
         env:
-          POSTGRES_DB: frauddb
-          POSTGRES_USER: fraud
-          POSTGRES_PASSWORD: fraud
+          POSTGRES_DB: fraudshield
+          POSTGRES_USER: user
+          POSTGRES_PASSWORD: root
         ports:
           - 5432:5432
         options: >-
-          --health-cmd="pg_isready -U fraud"
+          --health-cmd="pg_isready -U user"
           --health-interval=10s
           --health-timeout=5s
           --health-retries=5

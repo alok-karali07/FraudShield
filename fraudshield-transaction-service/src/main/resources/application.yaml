@@ -1,48 +1,46 @@
 spring:
-  application:
-    name: fraudshield-transaction-service
+  config:
+    import: optional:file:../.environment/.env[.properties]
 
   datasource:
-    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:fraudshield}
-    username: ${DB_USER:user}
-    password: ${DB_PASSWORD:root}
+    url: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${POSTGRES_DB}
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
     driver-class-name: org.postgresql.Driver
 
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
-      ddl-auto: ${DDL_AUTO:none}
+      ddl-auto: ${DDL_AUTO}
     properties:
       hibernate:
         format_sql: true
         show_sql: true
 
-  spring:
-    kafka:
-      bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
-
-      producer:
-        key-serializer: org.apache.kafka.common.serialization.StringSerializer
-        value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
-        properties:
-          spring.json.add.type.headers: false
-
-      streams:
-        application-id: fraudshield-fraud-detection
-
-        properties:
-          auto.offset.reset: earliest
-
-app:
   kafka:
     bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
 
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      properties:
+        spring.json.add.type.headers: false
+
+    streams:
+      application-id: fraudshield-fraud-detection
+
+      properties:
+        auto.offset.reset: earliest
+
+app:
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS}
     topic:
       transactions-created: fraudshield.transactions.created
       fraud-detected: fraudshield.fraud.detected
 
   fraud:
-    max-amount: 10000.0
+    max-amount: ${FRAUD_MAX_AMOUNT}
 
 logging:
   level:
@@ -50,7 +48,7 @@ logging:
     org.hibernate.orm.jdbc.bind: TRACE
 
 server:
-  port: 8081
+  port: ${TRANSACTION_SERVICE_PORT}
 
 springdoc:
   swagger-ui:
