@@ -122,8 +122,6 @@
                             <generatorName>spring</generatorName>
                             <library>spring-boot</library>
 
-<!--                            <templateDirectory>${project.basedir}/src/main/resources/template</templateDirectory>-->
-
                             <apiPackage>com.example.transaction.rest.api</apiPackage>
                             <modelPackage>com.example.transaction.rest.model</modelPackage>
 
