@@ -14,8 +14,8 @@ jobs:
       POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
       POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
       POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
-      DB_HOST: ${{ secrets.DB_HOST }}
-      DB_PORT: ${{ secrets.DB_PORT }}
+      DB_HOST: localhost
+      DB_PORT: 5432
       DDL_AUTO: ${{ secrets.DDL_AUTO }}
       FRAUD_MAX_AMOUNT: ${{ secrets.FRAUD_MAX_AMOUNT }}
       TRANSACTION_SERVICE_PORT: ${{ secrets.TRANSACTION_SERVICE_PORT }}
@@ -26,13 +26,13 @@ jobs:
       postgres:
         image: postgres:16
         env:
-          POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
-          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
-          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+          POSTGRES_DB: $POSTGRES_DB
+          POSTGRES_USER: $POSTGRES_USER
+          POSTGRES_PASSWORD: $POSTGRES_PASSWORD
         ports:
           - 5432:5432
         options: >-
-          --health-cmd="pg_isready -U ${{ secrets.POSTGRES_USER }}"
+          --health-cmd="pg_isready -U $POSTGRES_USER"
           --health-interval=10s
           --health-timeout=5s
           --health-retries=5
@@ -64,7 +64,7 @@ jobs:
 
       - name: Wait for Postgres
         run: |
-          until pg_isready -h localhost -p 5432; do
+          until pg_isready -h localhost -p 5432 -U $POSTGRES_USER; do
             echo "Waiting for postgres..."
             sleep 2
           done
