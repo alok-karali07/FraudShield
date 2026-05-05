@@ -52,8 +52,6 @@ services:
     container_name: fraudshield-postgres
     ports:
       - "5432:5432"
-    env_file:
-      - ../.environment/.env
     environment:
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_USER: ${POSTGRES_USER}
