@@ -1,6 +1,25 @@
+ErrorResponse:
+  type: object
+  properties:
+    status:
+      type: integer
+    code:
+      $ref: '#/ErrorCode'
+    message:
+      type: string
+    timestamp:
+      type: integer
+      format: int64
+  required:
+    - status
+    - code
+    - message
+    - timestamp
+
 ErrorCode:
   type: string
   enum:
+    - NOT_FOUND
     - INVALID_REQUEST
     - DUPLICATE_TRANSACTION
     - VALIDATION_FAILED

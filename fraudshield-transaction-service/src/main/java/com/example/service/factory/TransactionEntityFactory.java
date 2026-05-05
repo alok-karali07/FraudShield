@@ -2,6 +2,7 @@ package com.example.service.factory;
 
 import com.example.service.event.TransactionEvent;
 import com.example.service.model.TransactionEntity;
+import com.example.service.model.UserEntity;
 import com.example.service.model.enums.Currency;
 import com.example.service.model.enums.Location;
 import com.example.transaction.rest.model.RestTransactionRequest;
@@ -21,6 +22,7 @@ public class TransactionEntityFactory {
                 .currency(Currency.valueOf(request.getCurrency().getValue()))
                 .location(Location.valueOf(request.getLocation().getValue()))
                 .timestamp(Instant.ofEpochMilli(request.getTimestamp()))
+                .user(UserEntity.builder().id(request.getUserId()).build())
                 .build();
     }
 
@@ -28,7 +30,7 @@ public class TransactionEntityFactory {
 
         return TransactionEvent.builder()
                 .transactionId(transactionEntity.getId())
-//                .userId(transactionEntity.getUser().getId())
+                .userId(transactionEntity.getUser().getId())
                 .amount(transactionEntity.getAmount().doubleValue())
                 .currency(transactionEntity.getCurrency().name())
                 .location(transactionEntity.getLocation().name())
