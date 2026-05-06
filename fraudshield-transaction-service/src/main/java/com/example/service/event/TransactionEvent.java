@@ -16,5 +16,6 @@ public class TransactionEvent {
     private Double amount;
     private String currency;
     private String location;
+    private String clientIp;
     private Long timestamp;
 }
