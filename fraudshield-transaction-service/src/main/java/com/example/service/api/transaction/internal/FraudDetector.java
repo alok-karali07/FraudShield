@@ -1,4 +1,4 @@
-package com.example.service.api.transaction.service;
+package com.example.service.api.transaction.internal;
 
 import com.example.service.event.TransactionEvent;
 import org.springframework.beans.factory.annotation.Value;

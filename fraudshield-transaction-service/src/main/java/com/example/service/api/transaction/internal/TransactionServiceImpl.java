@@ -1,4 +1,4 @@
-package com.example.service.api.transaction.service;
+package com.example.service.api.transaction.internal;
 
 import com.example.service.exception.ErrorCode;
 import com.example.service.exception.NotFoundException;

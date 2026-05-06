@@ -35,5 +35,5 @@ public class UserEntity {
     private String email;
 
     @Column(name = "risk_score")
-    private Double riskScore;
+    private String phone;
 }

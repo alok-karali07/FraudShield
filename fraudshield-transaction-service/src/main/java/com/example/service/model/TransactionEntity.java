@@ -47,6 +47,9 @@ public class TransactionEntity {
     @Column(name = "location")
     private Location location;
 
+    @Column(name = "client_ip")
+    private String clientIp;
+
     @Column(name = "timestamp")
     private Instant timestamp;
 }

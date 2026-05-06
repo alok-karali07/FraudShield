@@ -1,9 +1,9 @@
 package com.example.service.stream;
 
+import com.example.service.api.transaction.internal.FraudDetector;
 import com.example.service.config.KafkaConfigProps;
 import com.example.service.event.FraudAlertEvent;
 import com.example.service.event.TransactionEvent;
-import com.example.service.api.transaction.service.FraudDetector;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

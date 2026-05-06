@@ -1,31 +1,27 @@
 package com.example.service.config;
 
 import com.example.service.event.TransactionEvent;
-import org.apache.kafka.clients.producer.ProducerConfig;
-import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.core.DefaultKafkaProducerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.core.ProducerFactory;
-import org.springframework.kafka.support.serializer.JsonSerializer;
 
-import java.util.HashMap;
 import java.util.Map;
 
 @Configuration
 public class KafkaProducerConfig {
 
     @Bean
-    public ProducerFactory<String, TransactionEvent> producerFactory(KafkaConfigProps kafkaConfigProps) {
+    public ProducerFactory<String, TransactionEvent> producerFactory(
+            org.springframework.boot.autoconfigure.kafka.KafkaProperties kafkaProperties) {
 
-        Map<String, Object> config = new HashMap<>();
+        // 1. Start with the properties defined in your application.yaml
+        Map<String, Object> config = kafkaProperties.buildProducerProperties(null);
 
-        config.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaConfigProps.getBootstrapServers());
-        config.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
-        config.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
-
-        config.put(JsonSerializer.ADD_TYPE_INFO_HEADERS, false);
+        // 2. Add your custom manual overrides
+        // This is safe because key.serializer is now already in the 'config' map from YAML
+        config.put(org.springframework.kafka.support.serializer.JsonSerializer.ADD_TYPE_INFO_HEADERS, false);
 
         return new DefaultKafkaProducerFactory<>(config);
     }
