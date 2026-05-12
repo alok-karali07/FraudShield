@@ -1,9 +1,9 @@
 package com.example.service.stream;
 
+import com.example.service.api.transaction.service.FraudDetector;
 import com.example.service.config.KafkaConfigProps;
 import com.example.service.event.FraudAlertEvent;
 import com.example.service.event.TransactionEvent;
-import com.example.service.api.transaction.service.FraudDetector;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -56,27 +56,27 @@ public class FraudDetectionStream {
         return fraudStream;
     }
 
-    private FraudAlertEvent toFraudEvent(TransactionEvent tx) {
+    private FraudAlertEvent toFraudEvent(TransactionEvent transactionEvent) {
 
         return FraudAlertEvent.builder()
-                .transactionId(tx.getTransactionId())
-                .userId(String.valueOf(tx.getUserId()))
-                .amount(tx.getAmount())
-                .currency(tx.getCurrency())
-                .location(tx.getLocation())
-                .timestamp(tx.getTimestamp())
-                .reason(buildReason(tx))
+                .transactionId(transactionEvent.getTransactionId())
+                .userId(String.valueOf(transactionEvent.getUserId()))
+                .amount(transactionEvent.getAmount())
+                .currency(transactionEvent.getCurrency())
+                .location(transactionEvent.getLocation())
+                .timestamp(transactionEvent.getTimestamp())
+                .reason(buildReason(transactionEvent))
                 .build();
     }
 
-    private String buildReason(TransactionEvent tx) {
+    private String buildReason(TransactionEvent transactionEvent) {
 
         double maxAmount = 10000.0;
-        if (tx.getAmount() > maxAmount) {
+        if (transactionEvent.getAmount() > maxAmount) {
             return "Amount exceeds threshold";
         }
 
-        if ("OTHER".equalsIgnoreCase(tx.getLocation())) {
+        if ("OTHER".equalsIgnoreCase(transactionEvent.getLocation())) {
             return "Suspicious location";
         }
 
