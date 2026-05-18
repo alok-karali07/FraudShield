@@ -34,6 +34,9 @@ public class UserEntity {
     @Column(name = "email")
     private String email;
 
+    @Column(name = "phone")
+    private String phone;
+
     @Column(name = "risk_score")
     private Double riskScore;
 }

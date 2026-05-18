@@ -6,16 +6,15 @@ import com.example.service.model.UserEntity;
 import com.example.service.model.enums.Currency;
 import com.example.service.model.enums.Location;
 import com.example.transaction.rest.model.RestTransactionRequest;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
+import lombok.experimental.UtilityClass;
 
 import java.math.BigDecimal;
 import java.time.Instant;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@UtilityClass
 public class TransactionEntityFactory {
 
-    public static TransactionEntity buildTransactionEntity(RestTransactionRequest request) {
+    public TransactionEntity buildTransactionEntity(RestTransactionRequest request) {
         return TransactionEntity.builder()
                 .id(request.getTransactionId())
                 .amount(BigDecimal.valueOf(request.getAmount()))
@@ -26,7 +25,7 @@ public class TransactionEntityFactory {
                 .build();
     }
 
-    public static TransactionEvent buildTransactionEvent(TransactionEntity transactionEntity) {
+    public TransactionEvent buildTransactionEvent(TransactionEntity transactionEntity) {
 
         return TransactionEvent.builder()
                 .transactionId(transactionEntity.getId())
